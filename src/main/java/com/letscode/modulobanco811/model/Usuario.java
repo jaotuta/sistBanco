@@ -1,6 +1,7 @@
 package com.letscode.modulobanco811.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.letscode.modulobanco811.dtos.UsuarioRequest;
 import lombok.Data;
@@ -40,6 +41,7 @@ public class Usuario {
     @LastModifiedDate
     private LocalDateTime dataAtualizacao;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuarioID", cascade = CascadeType.ALL)
     private List<Conta> contas;
 

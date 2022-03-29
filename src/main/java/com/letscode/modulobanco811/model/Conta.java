@@ -1,5 +1,6 @@
 package com.letscode.modulobanco811.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.letscode.modulobanco811.dtos.ContaRequest;
 import com.letscode.modulobanco811.dtos.UsuarioRequest;
 import lombok.Data;
