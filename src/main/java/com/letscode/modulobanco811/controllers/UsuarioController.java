@@ -1,0 +1,47 @@
+package com.letscode.modulobanco811.controllers;
+
+import com.letscode.modulobanco811.dtos.UsuarioRequest;
+import com.letscode.modulobanco811.model.Usuario;
+import com.letscode.modulobanco811.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/usuario")
+public class UsuarioController {
+
+    @Autowired
+    UsuarioService usuarioService;
+
+    @GetMapping
+    public List<Usuario> getAll(@RequestParam(required = false) String nome) {
+
+        return usuarioService.getAll(nome);
+    }
+
+    @PostMapping
+    public Usuario create(@RequestBody UsuarioRequest usuarioRequest) {
+        return usuarioService.create(usuarioRequest);
+    }
+
+    @GetMapping("/{id}")
+    public Usuario getById(@PathVariable Integer id) {
+        return usuarioService.getById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Usuario update(@PathVariable Integer id, @RequestBody UsuarioRequest usuarioRequest) {
+        return usuarioService.update(usuarioRequest, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        usuarioService.delete(id);
+    }
+
+
+
+}
