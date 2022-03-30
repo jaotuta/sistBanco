@@ -41,7 +41,6 @@ public class Usuario {
     @LastModifiedDate
     private LocalDateTime dataAtualizacao;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "usuarioID", cascade = CascadeType.ALL)
     private List<Conta> contas;
 

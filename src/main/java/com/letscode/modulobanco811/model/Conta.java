@@ -44,9 +44,16 @@ public class Conta {
     @LastModifiedDate
     private LocalDateTime dataAtualizacao;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuarioID;
+
+    @Column(name = "usuarioNome")
+    private String usuarioNome;
+
+    @Column(name = "usuarioID")
+    private Integer userId;
 
     public Conta(ContaRequest contaRequest) {
 

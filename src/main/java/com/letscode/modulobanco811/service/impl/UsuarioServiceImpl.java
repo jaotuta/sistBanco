@@ -3,6 +3,7 @@ package com.letscode.modulobanco811.service.impl;
 import com.letscode.modulobanco811.dtos.UsuarioRequest;
 import com.letscode.modulobanco811.dtos.UsuarioResponse;
 import com.letscode.modulobanco811.model.Usuario;
+import com.letscode.modulobanco811.repository.ContaRepository;
 import com.letscode.modulobanco811.repository.UsuarioRepository;
 import com.letscode.modulobanco811.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import java.util.Optional;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
+    @Autowired
+    ContaRepository contaRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
 

@@ -34,6 +34,8 @@ public class ContaServiceImpl implements ContaService {
         }else {
             var conta = new Conta(contaRequest);
             conta.setUsuarioID(usuarioRepository.getById(id));
+            conta.setUsuarioNome(usuarioRepository.getById(id).getNome());
+            conta.setUserId(usuarioRepository.getById(id).getId());
             contaRepository.save(conta);
             ContaResponse contaResponse = new ContaResponse();
             BeanUtils.copyProperties(conta, contaResponse);
