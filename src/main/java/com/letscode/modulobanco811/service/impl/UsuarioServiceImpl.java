@@ -8,6 +8,7 @@ import com.letscode.modulobanco811.repository.UsuarioRepository;
 import com.letscode.modulobanco811.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,25 +22,30 @@ public class UsuarioServiceImpl implements UsuarioService {
     ContaRepository contaRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Usuario> getAll(String nome) {
-        if(nome != null){
-            return usuarioRepository.findByNome(nome);
-        }
 
-        else return usuarioRepository.findAll();
+
+
+        if (nome != null) {
+            return usuarioRepository.findByNome(nome);
+        } else return usuarioRepository.findAll();
 
     }
 
     @Override
     public Usuario create(UsuarioRequest usuarioRequest) {
-        return usuarioRepository.save(new Usuario(usuarioRequest));
+        var passwordEncrypted = passwordEncoder.encode(usuarioRequest.getSenha());
+        return usuarioRepository.save(new Usuario(usuarioRequest, passwordEncrypted));
     }
+
     @Override
     public Usuario getById(Integer id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow();
-      return usuario;
+        return usuario;
     }
 
     @Override

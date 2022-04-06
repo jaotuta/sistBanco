@@ -30,6 +30,9 @@ public class Usuario {
     @Column(name = "cpf", nullable = false, unique = true)
     private String cpf;
 
+    @Column(name = "login")
+    private String login;
+
     @Column(name = "senha")
     private String senha;
 
@@ -44,10 +47,10 @@ public class Usuario {
     @OneToMany(mappedBy = "usuarioID", cascade = CascadeType.ALL)
     private List<Conta> contas;
 
-    public Usuario(UsuarioRequest usuarioRequest) {
+    public Usuario(UsuarioRequest usuarioRequest, String encryptedPassword) {
 
         this.cpf = usuarioRequest.getCpf();
         this.nome = usuarioRequest.getNome();
-        this.senha = usuarioRequest.getSenha();
+        this.senha = encryptedPassword;
     }
 }
