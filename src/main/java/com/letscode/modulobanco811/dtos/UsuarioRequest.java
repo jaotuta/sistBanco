@@ -12,5 +12,6 @@ public class UsuarioRequest {
     private String nome;
     private String cpf;
     private String senha;
+    private String login;
 
 }

@@ -31,8 +31,10 @@ public class Usuario {
     private String cpf;
 
     @Column(name = "login")
+    @JsonProperty("username")
     private String login;
 
+    @JsonProperty("password")
     @Column(name = "senha")
     private String senha;
 
@@ -47,10 +49,11 @@ public class Usuario {
     @OneToMany(mappedBy = "usuarioID", cascade = CascadeType.ALL)
     private List<Conta> contas;
 
-    public Usuario(UsuarioRequest usuarioRequest, String encryptedPassword) {
+    public Usuario(UsuarioRequest usuarioRequest) {
 
         this.cpf = usuarioRequest.getCpf();
         this.nome = usuarioRequest.getNome();
-        this.senha = encryptedPassword;
+        this.login = usuarioRequest.getLogin();
+        this.senha = usuarioRequest.getSenha();
     }
 }

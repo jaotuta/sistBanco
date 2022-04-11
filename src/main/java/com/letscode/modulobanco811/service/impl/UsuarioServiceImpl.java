@@ -7,10 +7,10 @@ import com.letscode.modulobanco811.repository.ContaRepository;
 import com.letscode.modulobanco811.repository.UsuarioRepository;
 import com.letscode.modulobanco811.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,24 +22,29 @@ public class UsuarioServiceImpl implements UsuarioService {
     ContaRepository contaRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
 
     @Override
-    public List<Usuario> getAll(String nome) {
+    public Page<Usuario> getAll(String nome, int page, int size) {
 
-
+        PageRequest pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.Direction.ASC,
+                "nome"
+        );
 
         if (nome != null) {
-            return usuarioRepository.findByNome(nome);
-        } else return usuarioRepository.findAll();
+            return usuarioRepository.findByNome(nome, pageRequest);
+        }
+        else
+            return usuarioRepository.findAll(pageRequest);
 
     }
 
     @Override
     public Usuario create(UsuarioRequest usuarioRequest) {
-        var passwordEncrypted = passwordEncoder.encode(usuarioRequest.getSenha());
-        return usuarioRepository.save(new Usuario(usuarioRequest, passwordEncrypted));
+        return usuarioRepository.save(new Usuario(usuarioRequest));
     }
 
     @Override

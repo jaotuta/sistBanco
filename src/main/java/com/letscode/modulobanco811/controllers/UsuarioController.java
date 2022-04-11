@@ -5,6 +5,7 @@ import com.letscode.modulobanco811.model.Usuario;
 import com.letscode.modulobanco811.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +18,12 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
     @GetMapping
-    public List<Usuario> getAll(@RequestParam(required = false) String nome) {
+    public Page<Usuario> getAll(@RequestParam(required = false) String nome,
+                                @RequestParam(required = false, defaultValue = "0") int page,
+                                @RequestParam(required = false, defaultValue = "10") int size
+    ) {
 
-        return usuarioService.getAll(nome);
+        return usuarioService.getAll(nome, page, size);
     }
 
     @PostMapping
