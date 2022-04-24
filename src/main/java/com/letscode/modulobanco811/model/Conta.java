@@ -34,7 +34,7 @@ public class Conta {
     private TipoConta tipoConta;
 
     @Column(name = "saldo")
-    private BigDecimal saldo;
+    private Float saldo;
 
     @Column(name = "data_cricao")
     @CreatedDate

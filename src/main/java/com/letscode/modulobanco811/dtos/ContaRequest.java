@@ -15,5 +15,5 @@ public class ContaRequest {
     private Integer agencia;
     @Enumerated(EnumType.STRING)
     private TipoConta tipoConta;
-    private BigDecimal saldo;
+    private Float saldo;
 }

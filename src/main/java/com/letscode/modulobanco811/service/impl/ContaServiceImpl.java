@@ -3,10 +3,14 @@ package com.letscode.modulobanco811.service.impl;
 import com.letscode.modulobanco811.dtos.ContaRequest;
 import com.letscode.modulobanco811.dtos.ContaResponse;
 import com.letscode.modulobanco811.dtos.UsuarioRequest;
+import com.letscode.modulobanco811.dtos.VerificaSaldoRequest;
 import com.letscode.modulobanco811.model.Conta;
+import com.letscode.modulobanco811.model.Transacao;
+import com.letscode.modulobanco811.model.VerificaSaldo;
 import com.letscode.modulobanco811.repository.ContaRepository;
 import com.letscode.modulobanco811.repository.UsuarioRepository;
 import com.letscode.modulobanco811.service.ContaService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ContaServiceImpl implements ContaService {
 
     @Autowired
@@ -47,6 +52,34 @@ public class ContaServiceImpl implements ContaService {
     @Override
     public ResponseEntity getAllContas() {
         return ResponseEntity.status(HttpStatus.FOUND).body(contaRepository.findAll());
+    }
+
+    @Override
+    public ResponseEntity verificaSaldo(VerificaSaldo verificaSaldo) {
+
+
+        Conta conta = contaRepository.findContaByNumero(verificaSaldo.getNumConta());
+        if(verificaSaldo.getValorTranferencia() <= conta.getSaldo()){
+            return ResponseEntity.status(HttpStatus.OK).body("true");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("false");
+    }
+
+    @Override
+    public void validarTransacao(Transacao value) {
+
+        Integer numContaMandante = value.getNumContaMandante();
+        Integer numContaDestinatario = value.getNumContaDestinatario();
+
+        Conta contaMandante = contaRepository.findContaByNumero(numContaMandante);
+        Conta contaDestinatario = contaRepository.findContaByNumero(numContaDestinatario);
+        Float valorTransacao = value.getValorTransacao();
+        float saldoDevedor = contaMandante.getSaldo() - valorTransacao;
+        contaMandante.setSaldo(saldoDevedor);
+        float credito = contaDestinatario.getSaldo() + valorTransacao;
+        contaDestinatario.setSaldo(credito);
+        contaRepository.save(contaMandante);
+        contaRepository.save(contaDestinatario);
     }
 
 
